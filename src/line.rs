@@ -1,5 +1,7 @@
 use std::io::Write;
 
+use crate::parsing::configiniwriter::ConfigIniWriter;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum LineEnding {
     Unknown,
@@ -18,7 +20,7 @@ impl LineEnding {
         }
     }
 
-    pub fn write_to<W: Write>(&self, writer: &mut W) -> std::io::Result<()> {
-        writer.write_all(self.as_str().as_bytes())
+    pub fn write_to<W: Write>(&self, writer: &mut ConfigIniWriter<W>) -> std::io::Result<()> {
+        writer.write(self.as_str().to_string())
     }
 }

@@ -1,6 +1,9 @@
+use super::configiniwriter::ConfigIniWriter;
 use crate::LineEnding;
+use std::io;
+use std::io::Write;
 
-use super::textline::TextLine;
+use super::{initoken::IniToken, textline::TextLine};
 
 #[derive(Debug, Clone)]
 pub struct MultiLineToken {
@@ -8,6 +11,16 @@ pub struct MultiLineToken {
 }
 
 impl MultiLineToken {
+    pub fn new() -> Self {
+        Self { lines: Vec::new() }
+    }
+
+    pub fn new_with_data(lines: Vec<String>, line_ending: LineEnding) -> Self {
+        let mut new = Self::new();
+        new.add_lines(lines, line_ending);
+        new
+    }
+
     pub fn add_line(&mut self, content: String, line_ending: LineEnding) {
         self.lines.push(TextLine::new(content, line_ending));
     }
@@ -22,5 +35,17 @@ impl MultiLineToken {
             strings.push(l.to_string());
         }
         strings
+    }
+}
+
+impl<T: Write> IniToken<T> for MultiLineToken {
+    fn write(&self, writer: &mut ConfigIniWriter<T>) -> io::Result<()> {
+        for l in &self.lines {
+            if !l.is_null {
+                writer.write(l.content.clone());
+                l.line_ending.write_to(writer);
+            }
+        }
+        Ok(())
     }
 }
