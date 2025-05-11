@@ -1,0 +1,10 @@
+[package]
+name = "rueconfig"
+version = "0.1.0"
+edition = "2024"
+repository = "https://github.com/meszmate/rueconfig"
+description = "Easy config reader/write for Unreal Engine"
+license = "MIT"
+keywords = ["unreal engine"]
+
+[dependencies]
