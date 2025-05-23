@@ -45,7 +45,6 @@ impl<T: IniToken> ConfigIniSection<T> {
         cloned.line_ending = self.line_ending.clone();
         cloned.line_waste_prefix = self.line_waste_prefix.clone();
         cloned.line_waste_suffix = self.line_waste_suffix.clone();
-        for
         cloned
     }
 }
